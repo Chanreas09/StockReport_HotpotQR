@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotpot Checklist</title>
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Khmer OS', system-ui, sans-serif;
+            background: #f7f3e9;
+            color: #2d1f14;
+            padding: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6b4f3a;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .mode-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d9c5b0;
+            padding-bottom: 10px;
+        }
+        .mode-tabs button {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8ddd0;
+            color: #4a3525;
+        }
+        .mode-tabs button.active {
+            background: #c0392b;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(192, 57, 43, 0.3);
+        }
+        .mode-tabs button:not(.active):hover {
+            background: #d5c6b5;
+        }
+        .panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .panel.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- CARDS & FORM ----- */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            border: 1px solid #efe6dc;
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #3f2c1e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #4f3a2a;
+        }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #dccfc2;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fcf9f6;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
+        }
+        .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        .row>* {
+            flex: 1 1 120px;
+        }
+        .row .full {
+            flex: 1 1 100%;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: #c0392b;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #a93226;
+            transform: scale(1.01);
+        }
+        .btn-success {
+            background: #27ae60;
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #1e8449;
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn-secondary {
+            background: #95a5a6;
+            color: #fff;
+        }
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #c0392b;
+            color: #c0392b;
+        }
+        .btn-outline:hover {
+            background: #c0392b;
+            color: #fff;
+        }
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 13px;
+        }
+        .btn-block {
+            width: 100%;
+        }
+
+        /* ----- STAFF ITEMS ----- */
+        .item-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0e8e0;
+        }
+        .item-row:last-child {
+            border-bottom: none;
+        }
+        .item-name {
+            flex: 2 1 140px;
+            font-weight: 500;
+        }
+        .item-qty {
+            flex: 0 0 70px;
+        }
+        .item-qty input {
+            width: 100%;
+            padding: 6px 8px;
+            font-size: 15px;
+            text-align: center;
+        }
+        .item-check {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            font-size: 13px;
+        }
+        .item-check label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 400;
+            cursor: pointer;
+            margin: 0;
+            font-size: 13px;
+        }
+        .item-check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #c0392b;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        .category-head {
+            font-weight: 700;
+            font-size: 17px;
+            color: #5a3f2d;
+            padding: 12px 0 4px;
+            border-bottom: 2px dashed #dccfc2;
+            margin-top: 6px;
+        }
+
+        /* ----- ADMIN ----- */
+        .admin-pw-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .admin-pw-box input {
+            flex: 2 1 180px;
+        }
+        .admin-pw-box .btn {
+            flex: 0 0 auto;
+        }
+        .admin-section {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 2px solid #efe6dc;
+        }
+        .admin-section h3 {
+            font-size: 16px;
+            color: #3f2c1e;
+            margin-bottom: 10px;
+        }
+        .admin-list {
+            list-style: none;
+            padding: 0;
+        }
+        .admin-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 8px;
+            background: #f8f4ef;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .admin-list li .name {
+            flex: 1;
+            font-weight: 500;
+        }
+        .admin-list li .actions {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .admin-add-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+        .admin-add-row input {
+            flex: 2 1 140px;
+        }
+        .admin-add-row .btn {
+            flex: 0 0 auto;
+        }
+
+        /* ----- TELEGRAM CONFIG ----- */
+        .telegram-config {
+            background: #f0f7fc;
+            border: 1px solid #c5d9e8;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+        .telegram-config label {
+            font-size: 13px;
+            color: #1a3a4f;
+        }
+
+        /* ----- STATUS / TOAST ----- */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d1f14;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.4s, transform 0.4s;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+            z-index: 999;
+        }
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        #toast.success {
+            background: #27ae60;
+        }
+        #toast.error {
+            background: #e74c3c;
+        }
+
+        /* ----- RESPONSIVE TWEAKS ----- */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .item-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .item-qty {
+                flex: 1;
+            }
+            .item-check {
+                justify-content: flex-start;
+            }
+            .mode-tabs button {
+                font-size: 14px;
+                padding: 8px;
+            }
+            .row {
+                flex-direction: column;
+            }
+            .admin-pw-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* scrollable staff list */
+        .staff-list-scroll {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .badge {
+            background: #c0392b;
+            color: #fff;
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .text-muted {
+            color: #7a6554;
+            font-size: 13px;
+        }
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .gap-4 {
+            gap: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== TOAST ====== -->
+    <div id="toast"></div>
+
+    <!-- ====== HEADER ====== -->
+    <h1>🍲 Hotpot Checklist</h1>
+    <div class="subtitle">បញ្ជីត្រួតពិនិត្យ</div>
+
+    <!-- ====== MODE TABS ====== -->
+    <div class="mode-tabs">
+        <button id="tabStaff" class="active" onclick="switchMode('staff')">👥 Staff</button>
+        <button id="tabAdmin" onclick="switchMode('admin')">🔧 Admin</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ====== STAFF PANEL ====== -->
+    <!-- ============================================================ -->
+    <div id="panelStaff" class="panel active">
+
+        <!-- Staff Name & Date -->
+        <div class="card">
+            <div class="row">
+                <div>
+                    <label>👤 Staff Name</label>
+                    <select id="staffNameSelect">
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
+                <div>
+                    <label>📅 Date</label>
+                    <input type="date" id="reportDate" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="card" id="staffChecklistContainer">
+            <!-- dynamically rendered -->
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-success btn-block" onclick="submitReport()" style="font-size:18px;padding:14px;">
+            📤 SUBMIT TO TELEGRAM
+        </button>
+        <p class="text-muted" style="text-align:center;margin-top:6px;">ចុចបញ្ជូនទៅកាន់ Telegram</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ====== ADMIN PANEL ====== -->
+    <!-- ============================================================ -->
+    <div id="panelAdmin" class="panel">
+
+        <!-- Password -->
+        <div class="card">
+            <div class="admin-pw-box">
+                <input type="password" id="adminPw" placeholder="Enter admin password" />
+                <button class="btn btn-primary" onclick="unlockAdmin()">🔓 Unlock</button>
+            </div>
+            <div id="adminLockStatus" class="text-muted" style="margin-top:6px;">🔒 Locked</div>
+        </div>
+
+        <!-- Admin Content (hidden until unlocked) -->
+        <div id="adminContent" style="display:none;">
+
+            <!-- STAFF MANAGEMENT -->
+            <div class="card">
+                <div class="card-title">
+                    <span>👤 Staff List</span>
+                    <span class="badge" id="staffCount">0</span>
+                </div>
+                <div class="admin-add-row">
+                    <input type="text" id="newStaffName" placeholder="Add staff name..." />
+                    <button class="btn btn-success btn-sm" onclick="addStaff()">➕ Add</button>
+                </div>
+                <ul class="admin-list staff-list-scroll" id="staffList"></ul>
+            </div>
+
+            <!-- CATEGORY & ITEM MANAGEMENT -->
+            <div class="card">
+                <div class="card-title">
+                    <span>📂 Categories &amp; Items</span>
+                </div>
+                <div class="admin-add-row">
+                    <input type="text" id="newCategoryName" placeholder="New category..." />
+                    <button class="btn btn-success btn-sm" onclick="addCategory()">➕ Add Category</button>
+                </div>
+                <div id="categoryAdminList"></div>
+            </div>
+
+            <!-- TELEGRAM CONFIG -->
+            <div class="card telegram-config">
+                <div class="card-title" style="font-size:16px;">
+                    <span>📨 Telegram Config</span>
+                </div>
+                <div class="row">
+                    <div class="full">
+                        <label>Bot Token</label>
+                        <input type="text" id="tgToken" placeholder="e.g. 123456:ABC-DEF" />
+                    </div>
+                    <div class="full">
+                        <label>Chat ID</label>
+                        <input type="text" id="tgChatId" placeholder="e.g. -123456789" />
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="saveTelegramConfig()">💾 Save Telegram Config</button>
+                <span id="tgSaveStatus" class="text-muted" style="margin-left:8px;"></span>
+            </div>
+
+            <!-- RESET / DANGER -->
+            <div class="card" style="border-color:#e74c3c;">
+                <button class="btn btn-danger btn-sm" onclick="resetAllData()" style="width:100%;">
+                    🗑️ Reset All Data (Clear localStorage)
+                </button>
+                <p class="text-muted" style="font-size:12px;margin-top:4px;">This will delete all categories, items, staff, and settings.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ========================== SCRIPT ============================ -->
+    <!-- ============================================================ -->
+    <script>
+        // =============================================================
+        //  DATA LAYER
+        // =============================================================
+
+        const STORAGE_KEY = 'hotpot_checklist_data';
+
+        function getDefaultData() {
+            return {
+                // Staff list
+                staff: ['Ms.Makara', 'Ms.Hour'],
+                // Categories and items
+                categories: [
+                    { name: 'បន្លែ', items: ['ស្ពៃ បូកគោ', 'ស្ពៃ ចយ', 'ផ្សិត'] },
+                    { name: 'ទឹកជ្រលក់', items: ['ទឺកជ្រលក់ ស៊ុប', 'ទឹកជ្រលក់ តៅហ៊ូអាំង', 'ទឹកជ្រលក់ គាវ (ទឹកស៊ីអីវជូរ)',
+                            'កែវ ទឹកជ្រលក់ តូច'
+                        ] },
+                    { name: 'គ្រឿងប្រើប្រាស់', items: ['ចានមី រាក់', 'ចានមី ជ្រៅ', 'ប្រអប់ស ក្រដាស់ ដាក់គាវ',
+                            'ឈុតចង្កឺះ ហតផង', 'ឈើ ចង្កាក់ដោត', 'ថង់ច្រក ហតផត ថ្លា'
+                        ] },
+                    { name: 'មី', items: ['មី ចិនតូច', 'មី ចិនធំ', 'មី សួរសសៃ', 'មី ក្រញាញ់', 'មី ខ្មែរ'] },
+                    { name: 'ប្រហិត និង សាច់', items: ['ប្រហិត នំប៉ាវឆ្នូត', 'ប្រហិត តៅហ៊ូជ្រុងតូច',
+                            'ប្រហិត ហតដកខ្លី', 'មាន់ខ្មៅ', 'ប្រហិត តៅហ៊អាំង', 'គាវ ពោត', 'គាវ ផ្សិត'
+                        ] }
+                ],
+                // Telegram config
+                telegram: {
+                    token: '',
+                    chatId: ''
+                }
+            };
+        }
+
+        let data = null;
+
+        function loadData() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                try {
+                    const parsed = JSON.parse(raw);
+                    // Ensure all fields exist
+                    const def = getDefaultData();
+                    data = {
+                        staff: parsed.staff || def.staff,
+                        categories: parsed.categories || def.categories,
+                        telegram: parsed.telegram || def.telegram
+                    };
+                    return;
+                } catch (e) { /* fall through */ }
+            }
+            data = getDefaultData();
+            saveData();
+        }
+
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        // =============================================================
+        //  HELPERS
+        // =============================================================
+
+        function $(id) { return document.getElementById(id); }
+
+        function showToast(msg, type) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.className = 'show ' + (type || '');
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => { t.className = ''; }, 3500);
+        }
+
+        function formatDate(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return y + '-' + m + '-' + day;
+        }
+
+        // =============================================================
+        //  MODE SWITCH
+        // =============================================================
+
+        let currentMode = 'staff';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.mode-tabs button').forEach(b => b.classList.remove('active'));
+            if (mode === 'staff') {
+                $('panelStaff').classList.add('active');
+                $('tabStaff').classList.add('active');
+                renderStaffChecklist();
+                populateStaffDropdown();
+                $('reportDate').value = formatDate(new Date());
+            } else {
+                $('panelAdmin').classList.add('active');
+                $('tabAdmin').classList.add('active');
+                // If already unlocked, re-render admin content
+                if ($('adminContent').style.display !== 'none') {
+                    renderAdminContent();
+                }
+            }
+        }
+
+        // =============================================================
+        //  STAFF PANEL
+        // =============================================================
+
+        function populateStaffDropdown() {
+            const sel = $('staffNameSelect');
+            const current = sel.value;
+            sel.innerHTML = '<option value="">-- Select --</option>';
+            data.staff.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                sel.appendChild(opt);
+            });
+            if (current && data.staff.includes(current)) sel.value = current;
+        }
+
+        function renderStaffChecklist() {
+            const container = $('staffChecklistContainer');
+            let html = '';
+            data.categories.forEach(cat => {
+                html += `<div class="category-head">${cat.name}</div>`;
+                cat.items.forEach(item => {
+                    const id = slugify(cat.name + '_' + item);
+                    html += `
+                        <div class="item-row" data-category="${cat.name}" data-item="${item}">
+                            <span class="item-name">${item}</span>
+                            <div class="item-qty">
+                                <input type="number" id="qty_${id}" min="0" max="99" value="0" />
+                            </div>
+                            <div class="item-check">
+                                <label><input type="checkbox" class="chk-urgent" data-id="${id}" /> Urgent</label>
+                                <label><input type="checkbox" class="chk-noturgent" data-id="${id}" /> Not Urgent</label>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+            container.innerHTML = html;
+
+            // Auto-uncheck opposite checkbox
+            container.querySelectorAll('.chk-urgent').forEach(cb => {
+                cb.addEventListener('change', function() {
+                    if (this.checked) {
+                        const not = document.querySelector(`.chk-noturgent[data-id="${this.dataset.id}"]`);
+                        if (not) not.checked = false;
+                    }
+                });
+            });
+            container.querySelectorAll('.chk-noturgent').forEach(cb => {
+                cb.addEventListener('change', function() {
+                    if (this.checked) {
+                        const urg = document.querySelector(`.chk-urgent[data-id="${this.dataset.id}"]`);
+                        if (urg) urg.checked = false;
+                    }
+                });
+            });
+        }
+
+        function slugify(text) {
+            return text.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        }
+
+        // =============================================================
+        //  SUBMIT REPORT TO TELEGRAM
+        // =============================================================
+
+        function submitReport() {
+            const staff = $('staffNameSelect').value;
+            if (!staff) {
+                showToast('Please select a staff name.', 'error');
+                return;
+            }
+            const date = $('reportDate').value || formatDate(new Date());
+
+            // Collect data
+            let urgentItems = [];
+            let notUrgentItems = [];
+
+            document.querySelectorAll('.item-row').forEach(row => {
+                const cat = row.dataset.category;
+                const item = row.dataset.item;
+                const qtyInput = row.querySelector('.item-qty input');
+                const qty = parseInt(qtyInput.value) || 0;
+                if (qty <= 0) return;
+
+                const urg = row.querySelector('.chk-urgent');
+                const not = row.querySelector('.chk-noturgent');
+
+                if (urg && urg.checked) {
+                    urgentItems.push({ category: cat, name: item, qty });
+                } else if (not && not.checked) {
+                    notUrgentItems.push({ category: cat, name: item, qty });
+                }
+            });
+
+            if (urgentItems.length === 0 && notUrgentItems.length === 0) {
+                showToast('No items marked with quantity > 0 and urgency.', 'error');
+                return;
+            }
+
+            // Build message
+            let msg = `🍲 HOTPOT CHECKLIST REPORT\n`;
+            msg += `📅 Date: ${date}\n`;
+            msg += `👤 Staff: ${staff}\n\n`;
+
+            if (urgentItems.length > 0) {
+                msg += `🚨 URGENT (ត្រូវទិញស្អែក):\n`;
+                urgentItems.forEach(it => {
+                    msg += `• ${it.name} → Qty: ${it.qty}\n`;
+                });
+                msg += `\n`;
+            }
+
+            if (notUrgentItems.length > 0) {
+                msg += `🟡 NOT URGENT (គ្រប់សម្រាប់០៣ថ្ងៃ):\n`;
+                notUrgentItems.forEach(it => {
+                    msg += `• ${it.name} → Qty: ${it.qty}\n`;
+                });
+                msg += `\n`;
+            }
+
+            // Check if any item had qty but no urgency
+            let hasUnflagged = false;
+            document.querySelectorAll('.item-row').forEach(row => {
+                const qtyInput = row.querySelector('.item-qty input');
+                const qty = parseInt(qtyInput.value) || 0;
+                if (qty > 0) {
+                    const urg = row.querySelector('.chk-urgent');
+                    const not = row.querySelector('.chk-noturgent');
+                    if (!(urg && urg.checked) && !(not && not.checked)) {
+                        hasUnflagged = true;
+                    }
+                }
+            });
+            if (hasUnflagged) {
+                msg += `⚠️ Some items have quantity but no urgency marked (ignored).\n`;
+            }
+
+            msg += `\n✅ Report submitted by ${staff}`;
+
+            // Send to Telegram
+            const token = data.telegram.token.trim();
+            const chatId = data.telegram.chatId.trim();
+            if (!token || !chatId) {
+                showToast('Telegram config missing. Please set in Admin panel.', 'error');
+                return;
+            }
+
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            const payload = {
+                chat_id: chatId,
+                text: msg,
+                parse_mode: 'HTML'
+            };
+
+            // Disable button
+            const btn = document.querySelector('.btn-success');
+            btn.disabled = true;
+            btn.textContent = '⏳ Sending...';
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.ok) {
+                        showToast('✅ Report sent to Telegram!', 'success');
+                        // Reset quantities and checkboxes
+                        document.querySelectorAll('.item-row .item-qty input').forEach(inp => inp.value = '0');
+                        document.querySelectorAll('.chk-urgent, .chk-noturgent').forEach(cb => cb.checked = false);
+                    } else {
+                        showToast('❌ Telegram error: ' + (result.description || 'Unknown'), 'error');
+                    }
+                })
+                .catch(err => {
+                    showToast('❌ Network error: ' + err.message, 'error');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.textContent = '📤 SUBMIT TO TELEGRAM';
+                });
+        }
+
+        // =============================================================
+        //  ADMIN: UNLOCK
+        // =============================================================
+
+        let adminUnlocked = false;
+
+        function unlockAdmin() {
+            const pw = $('adminPw').value;
+            if (pw === 'hotpot2026') {
+                adminUnlocked = true;
+                $('adminContent').style.display = 'block';
+                $('adminLockStatus').textContent = '🔓 Unlocked';
+                $('adminLockStatus').style.color = '#27ae60';
+                renderAdminContent();
+                showToast('✅ Admin unlocked', 'success');
+            } else {
+                showToast('❌ Wrong password', 'error');
+            }
+        }
+
+        // =============================================================
+        //  ADMIN: RENDER CONTENT
+        // =============================================================
+
+        function renderAdminContent() {
+            renderStaffList();
+            renderCategoryAdmin();
+            loadTelegramConfig();
+            $('staffCount').textContent = data.staff.length;
+        }
+
+        // ----- STAFF LIST -----
+        function renderStaffList() {
+            const ul = $('staffList');
+            if (data.staff.length === 0) {
+                ul.innerHTML = '<li class="text-muted">No staff added yet.</li>';
+                return;
+            }
+            ul.innerHTML = data.staff.map(s => `
+                <li>
+                    <span class="name">${s}</span>
+                    <div class="actions">
+                        <button class="btn btn-danger btn-sm" onclick="deleteStaff('${s}')">🗑️</button>
+                    </div>
+                </li>
+            `).join('');
+            $('staffCount').textContent = data.staff.length;
+        }
+
+        function addStaff() {
+            const inp = $('newStaffName');
+            const name = inp.value.trim();
+            if (!name) { showToast('Please enter a name.', 'error'); return; }
+            if (data.staff.includes(name)) { showToast('Name already exists.', 'error'); return; }
+            data.staff.push(name);
+            saveData();
+            renderStaffList();
+            populateStaffDropdown();
+            $('staffCount').textContent = data.staff.length;
+            inp.value = '';
+            showToast('✅ Added staff: ' + name, 'success');
+        }
+
+        function deleteStaff(name) {
+            if (!confirm('Delete staff "' + name + '"?')) return;
+            data.staff = data.staff.filter(s => s !== name);
+            saveData();
+            renderStaffList();
+            populateStaffDropdown();
+            $('staffCount').textContent = data.staff.length;
+            showToast('🗑️ Deleted: ' + name);
+        }
+
+        // ----- CATEGORY & ITEMS -----
+        function renderCategoryAdmin() {
+            const container = $('categoryAdminList');
+            let html = '';
+            data.categories.forEach((cat, ci) => {
+                html += `
+                    <div style="margin-top:12px;padding:10px;background:#f8f4ef;border-radius:10px;">
+                        <div class="flex-between">
+                            <strong>📂 ${cat.name}</strong>
+                            <div>
+                                <button class="btn btn-danger btn-sm" onclick="deleteCategory(${ci})">🗑️ Category</button>
+                            </div>
+                        </div>
+                        <ul class="admin-list" style="margin-top:6px;">
+                `;
+                cat.items.forEach((item, ii) => {
+                    html += `
+                        <li>
+                            <span class="name">${item}</span>
+                            <div class="actions">
+                                <button class="btn btn-danger btn-sm" onclick="deleteItem(${ci}, ${ii})">🗑️</button>
+                            </div>
+                        </li>
+                    `;
+                });
+                html += `
+                        </ul>
+                        <div class="admin-add-row" style="margin-top:4px;">
+                            <input type="text" id="newItem_${ci}" placeholder="Add item..." />
+                            <button class="btn btn-success btn-sm" onclick="addItem(${ci})">➕ Add Item</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function addCategory() {
+            const inp = $('newCategoryName');
+            const name = inp.value.trim();
+            if (!name) { showToast('Enter category name.', 'error'); return; }
+            if (data.categories.some(c => c.name === name)) { showToast('Category exists.', 'error'); return; }
+            data.categories.push({ name, items: [] });
+            saveData();
+            renderCategoryAdmin();
+            inp.value = '';
+            showToast('✅ Added category: ' + name, 'success');
+        }
+
+        function deleteCategory(ci) {
+            const cat = data.categories[ci];
+            if (!confirm('Delete category "' + cat.name + '" and all its items?')) return;
+            data.categories.splice(ci, 1);
+            saveData();
+            renderCategoryAdmin();
+            renderStaffChecklist();
+            showToast('🗑️ Deleted category.');
+        }
+
+        function addItem(ci) {
+            const inp = $('newItem_' + ci);
+            const name = inp.value.trim();
+            if (!name) { showToast('Enter item name.', 'error'); return; }
+            if (data.categories[ci].items.includes(name)) { showToast('Item already exists.', 'error'); return; }
+            data.categories[ci].items.push(name);
+            saveData();
+            renderCategoryAdmin();
+            renderStaffChecklist();
+            inp.value = '';
+            showToast('✅ Added item: ' + name, 'success');
+        }
+
+        function deleteItem(ci, ii) {
+            const item = data.categories[ci].items[ii];
+            if (!confirm('Delete item "' + item + '"?')) return;
+            data.categories[ci].items.splice(ii, 1);
+            saveData();
+            renderCategoryAdmin();
+            renderStaffChecklist();
+            showToast('🗑️ Deleted item.');
+        }
+
+        // ----- TELEGRAM CONFIG -----
+        function loadTelegramConfig() {
+            $('tgToken').value = data.telegram.token || '';
+            $('tgChatId').value = data.telegram.chatId || '';
+        }
+
+        function saveTelegramConfig() {
+            const token = $('tgToken').value.trim();
+            const chatId = $('tgChatId').value.trim();
+            data.telegram.token = token;
+            data.telegram.chatId = chatId;
+            saveData();
+            $('tgSaveStatus').textContent = '✅ Saved at ' + new Date().toLocaleTimeString();
+            setTimeout(() => { $('tgSaveStatus').textContent = ''; }, 4000);
+            showToast('✅ Telegram config saved.', 'success');
+        }
+
+        // ----- RESET -----
+        function resetAllData() {
+            if (!confirm('⚠️ Are you SURE? This will delete ALL data (categories, items, staff, settings).')) return;
+            if (!confirm('⚠️ Really? This cannot be undone.')) return;
+            localStorage.removeItem(STORAGE_KEY);
+            loadData();
+            renderAdminContent();
+            renderStaffChecklist();
+            populateStaffDropdown();
+            $('adminContent').style.display = 'none';
+            adminUnlocked = false;
+            $('adminLockStatus').textContent = '🔒 Locked';
+            $('adminLockStatus').style.color = '';
+            showToast('🗑️ All data reset.', 'error');
+        }
+
+        // =============================================================
+        //  INIT
+        // =============================================================
+
+        loadData();
+
+        // Set today's date
+        $('reportDate').value = formatDate(new Date());
+
+        // Render staff dropdown and checklist
+        populateStaffDropdown();
+        renderStaffChecklist();
+
+        // Close admin content initially
+        $('adminContent').style.display = 'none';
+
+        console.log('🍲 Hotpot Checklist loaded!');
+        console.log('📊 Data:', data);
+    </script>
+</body>
+</html>
