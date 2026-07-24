@@ -1,0 +1,1 @@
+# StockReport_HotpotQR
