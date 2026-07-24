@@ -311,19 +311,6 @@
             flex: 0 0 auto;
         }
 
-        /* ----- TELEGRAM CONFIG ----- */
-        .telegram-config {
-            background: #f0f7fc;
-            border: 1px solid #c5d9e8;
-            border-radius: 10px;
-            padding: 14px;
-            margin-top: 10px;
-        }
-        .telegram-config label {
-            font-size: 13px;
-            color: #1a3a4f;
-        }
-
         /* ----- STATUS / TOAST ----- */
         #toast {
             position: fixed;
@@ -508,25 +495,6 @@
                 <div id="categoryAdminList"></div>
             </div>
 
-            <!-- TELEGRAM CONFIG -->
-            <div class="card telegram-config">
-                <div class="card-title" style="font-size:16px;">
-                    <span>📨 Telegram Config</span>
-                </div>
-                <div class="row">
-                    <div class="full">
-                        <label>Bot Token</label>
-                        <input type="text" id="tgToken" placeholder="e.g. 123456:ABC-DEF" />
-                    </div>
-                    <div class="full">
-                        <label>Chat ID</label>
-                        <input type="text" id="tgChatId" placeholder="e.g. -123456789" />
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-sm" onclick="saveTelegramConfig()">💾 Save Telegram Config</button>
-                <span id="tgSaveStatus" class="text-muted" style="margin-left:8px;"></span>
-            </div>
-
             <!-- RESET / DANGER -->
             <div class="card" style="border-color:#e74c3c;">
                 <button class="btn btn-danger btn-sm" onclick="resetAllData()" style="width:100%;">
@@ -541,6 +509,13 @@
     <!-- ========================== SCRIPT ============================ -->
     <!-- ============================================================ -->
     <script>
+        // ============================================
+        // TELEGRAM BOT_ Hotpot
+        // ============================================
+
+        const BOT_TOKEN = '8812820781:AAH-VdWYStzKtB48zRxkUApbe9rOpFzAgk0';
+        const CHAT_ID = '-5362955848';
+
         // =============================================================
         //  DATA LAYER
         // =============================================================
@@ -550,25 +525,26 @@
         function getDefaultData() {
             return {
                 // Staff list
-                staff: ['Ms.Makara', 'Ms.Hour'],
+                staff: ['Ms.Makara', 'Ms.Hour', 'Owner'],
                 // Categories and items
                 categories: [
-                    { name: 'បន្លែ', items: ['ស្ពៃ បូកគោ', 'ស្ពៃ ចយ', 'ផ្សិត'] },
-                    { name: 'ទឹកជ្រលក់', items: ['ទឺកជ្រលក់ ស៊ុប', 'ទឹកជ្រលក់ តៅហ៊ូអាំង', 'ទឹកជ្រលក់ គាវ (ទឹកស៊ីអីវជូរ)',
-                            'កែវ ទឹកជ្រលក់ តូច'
+                    { name: 'បន្លែ', items: ['ស្ពៃ បូកគោ​ (រាប់រាយ)', 'ស្ពៃ ចយ (រាប់បាច់)', 'ផ្សិត (រាប់ដុំ)'] },
+                    { name: 'ទឹកជ្រលក់', items: ['ទឺកជ្រលក់ ស៊ុប (ស្មានគិតជាថ្ងៃ)', 'ទឹកជ្រលក់ តៅហ៊ូអាំង (ស្មានគិតជាថ្ងៃ)',
+                            'ទឹកជ្រលក់ គាវ (ទឹកស៊ីអីវជូរ) -(ស្មានគិតជាថ្ងៃ)', 'កែវ កូកា (រាប់កែវ)', 'កែវ ទឹកជ្រលក់ តូច (រាប់កែវ)'
                         ] },
-                    { name: 'គ្រឿងប្រើប្រាស់', items: ['ចានមី រាក់', 'ចានមី ជ្រៅ', 'ប្រអប់ស ក្រដាស់ ដាក់គាវ',
-                            'ឈុតចង្កឺះ ហតផង', 'ឈើ ចង្កាក់ដោត', 'ថង់ច្រក ហតផត ថ្លា'
+                    { name: 'គ្រឿងប្រើប្រាស់', items: ['ចានមី រាក់ (រាប់ចាន)', 'ចានមី ជ្រៅ​ (រាប់ចាន)', 'ប្រអប់ស ក្រដាស់ ដាក់គាវ (រាប់ចាន)',
+                            'ឈុតចង្កឺះ ហតផង (រាប់ រាយ)', 'ឈើ ចង្កាក់ដោត (រាប់ដើម)', 'ថង់ច្រក ហតផត ថ្លា ( រាប់ដុំ )'
                         ] },
-                    { name: 'មី', items: ['មី ចិនតូច', 'មី ចិនធំ', 'មី សួរសសៃ', 'មី ក្រញាញ់', 'មី ខ្មែរ'] },
-                    { name: 'ប្រហិត និង សាច់', items: ['ប្រហិត នំប៉ាវឆ្នូត', 'ប្រហិត តៅហ៊ូជ្រុងតូច',
-                            'ប្រហិត ហតដកខ្លី', 'មាន់ខ្មៅ', 'ប្រហិត តៅហ៊អាំង', 'គាវ ពោត', 'គាវ ផ្សិត'
-                        ] }
+                    { name: 'មី', items: ['មី ចិនតូច (រាប់ដុំតូច)', 'មី ចិនធំ (រាប់កញ្ចប់)', 'មី សួរសសៃ (រាប់ដុំ)', 'មី ក្រញាញ់ (រាប់ដុំ)', 'មី ខ្មែរ (រាប់ថង់)'] },
+                    { name: 'ប្រហិត និង សាច់', items: ['ប្រហិត នំប៉ាវឆ្នូត (ស្មានគិតថ្ងៃ)', 'ប្រហិត តៅហ៊ូជ្រុងតូច (ស្មានគិតថ្ងៃ)',
+                            'ប្រហិត ហតដកខ្លី (ស្មានគិតថ្ងៃ)', 'មាន់ខ្មៅ (រាប់ប្រអប់)', 'ប្រហិត តៅហ៊អាំង (រាប់ប្រអប់)', 'គាវ ពោត (រាប់កញ្ចប់)', 'គាវ ផ្សិត (រាប់កញ្ចប់)'
+                        ] },
+                    { name: 'ផ្នែកសំខាន់', items: ['ធ្យូង (ស្មានគិតជាថ្ងៃ)', 'កំប៉ុងហ្គាស់តូច (រាប់កំប៉ុង)', 'ទឹកស៊ុប (ស្មាន) បើសល់ មួយចំអាម គឺរាប់ថា ត្រូវធ្វើបន្ទាន់ស្អែក'] }
                 ],
-                // Telegram config
-                telegram: {
-                    token: '',
-                    chatId: ''
+                // Reference-only minimum quantity notes shown next to an item (no automation).
+                // Key format: "CategoryName|||ItemName"
+                minNotes: {
+                    'បន្លែ|||ស្ពៃ បូកគោ\u200b (រាប់រាយ)': 4
                 }
             };
         }
@@ -585,7 +561,7 @@
                     data = {
                         staff: parsed.staff || def.staff,
                         categories: parsed.categories || def.categories,
-                        telegram: parsed.telegram || def.telegram
+                        minNotes: parsed.minNotes || def.minNotes
                     };
                     return;
                 } catch (e) { /* fall through */ }
@@ -669,9 +645,14 @@
                 html += `<div class="category-head">${cat.name}</div>`;
                 cat.items.forEach(item => {
                     const id = slugify(cat.name + '_' + item);
+                    const minKey = cat.name + '|||' + item;
+                    const minVal = (data.minNotes && data.minNotes[minKey] !== undefined) ? data.minNotes[minKey] : null;
+                    const minNoteHtml = minVal !== null
+                        ? ` <span class="text-muted" style="font-size:12px;">(យ៉ាងតិច: ${minVal})</span>`
+                        : '';
                     html += `
                         <div class="item-row" data-category="${cat.name}" data-item="${item}">
-                            <span class="item-name">${item}</span>
+                            <span class="item-name">${item}${minNoteHtml}</span>
                             <div class="item-qty">
                                 <input type="number" id="qty_${id}" min="0" max="99" value="0" />
                             </div>
@@ -786,17 +767,10 @@
 
             msg += `\n✅ Report submitted by ${staff}`;
 
-            // Send to Telegram
-            const token = data.telegram.token.trim();
-            const chatId = data.telegram.chatId.trim();
-            if (!token || !chatId) {
-                showToast('Telegram config missing. Please set in Admin panel.', 'error');
-                return;
-            }
-
-            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            // Send to Telegram (hardcoded bot credentials)
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
             const payload = {
-                chat_id: chatId,
+                chat_id: CHAT_ID,
                 text: msg,
                 parse_mode: 'HTML'
             };
@@ -858,7 +832,6 @@
         function renderAdminContent() {
             renderStaffList();
             renderCategoryAdmin();
-            loadTelegramConfig();
             $('staffCount').textContent = data.staff.length;
         }
 
@@ -984,23 +957,6 @@
             renderCategoryAdmin();
             renderStaffChecklist();
             showToast('🗑️ Deleted item.');
-        }
-
-        // ----- TELEGRAM CONFIG -----
-        function loadTelegramConfig() {
-            $('tgToken').value = data.telegram.token || '';
-            $('tgChatId').value = data.telegram.chatId || '';
-        }
-
-        function saveTelegramConfig() {
-            const token = $('tgToken').value.trim();
-            const chatId = $('tgChatId').value.trim();
-            data.telegram.token = token;
-            data.telegram.chatId = chatId;
-            saveData();
-            $('tgSaveStatus').textContent = '✅ Saved at ' + new Date().toLocaleTimeString();
-            setTimeout(() => { $('tgSaveStatus').textContent = ''; }, 4000);
-            showToast('✅ Telegram config saved.', 'success');
         }
 
         // ----- RESET -----
